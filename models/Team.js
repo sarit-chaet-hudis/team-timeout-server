@@ -1,9 +1,15 @@
 const mongoose = require("mongoose");
 
 const TeamSchema = new mongoose.Schema({
-  name: String,
-  blocks: [{}],
-  highscores: Array,
+  teamName: String,
+  teamUid: String,
+  blocks: Array,
+  highscores: [
+    {
+      playerName: String,
+      score: Number,
+    },
+  ],
 });
 
 const Team = mongoose.model("Team", TeamSchema);
