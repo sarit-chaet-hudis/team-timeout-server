@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const TeamSchema = new mongoose.Schema({
   teamName: String,
-  teamUid: String,
+  teamUid: { type: String, unique: true },
   blocks: Array,
   highscores: [
     {

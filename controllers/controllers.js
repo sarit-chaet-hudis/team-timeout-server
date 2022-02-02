@@ -1,7 +1,13 @@
 const Team = require("../models/Team");
 
 async function addTeam(req, res) {
-  // TODO
+  const { teamUid } = req.params;
+  const { blocks } = req.body;
+  try {
+    const team = await Team.create({ teamUid: teamUid, blocks: blocks });
+  } catch (err) {
+    res.send(200).send(err.message);
+  }
 }
 
 async function getTeam(req, res) {
