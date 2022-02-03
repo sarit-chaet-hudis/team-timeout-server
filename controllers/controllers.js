@@ -29,12 +29,16 @@ async function getTeam(req, res) {
 async function updateScores(res, req) {
   const { teamUid } = req.params;
   const { playerName, score } = req.body;
+  console.log("~ score", score);
+  console.log("~ playerName", playerName);
   try {
     const team = await Team.findOne({ teamUid: teamUid });
+    console.log("~ team", team);
     if (!team) throw Error("No such team");
     team.highscores.push({ playerName, score });
     team.highscores.sort((a, b) => b.score - a.score);
-    team.save();
+    await team.save();
+    res.send(team.highscores);
   } catch (err) {
     res.status(400).send(err.message);
   }
