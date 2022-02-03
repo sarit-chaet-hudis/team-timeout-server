@@ -1,6 +1,5 @@
 require("dotenv").config();
 const express = require("express");
-const path = require("path");
 const cors = require("cors");
 const mongoose = require("mongoose");
 
@@ -8,9 +7,6 @@ const apiRouter = require("./routes/api.js");
 
 const URI = process.env.MONGO_URI;
 const app = express();
-
-// TODO complete static location :
-// app.use(express.static(path.join(__dirname, "./client/build")));
 
 app.use(cors());
 app.options("*", cors());
