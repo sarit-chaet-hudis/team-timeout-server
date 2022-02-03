@@ -26,4 +26,18 @@ async function getTeam(req, res) {
   }
 }
 
-module.exports = { addTeam, getTeam };
+async function updateScores(res, req) {
+  const { teamUid } = req.params;
+  const { playerName, score } = req.body;
+  try {
+    const team = await Team.findOne({ teamUid: teamUid });
+    if (!team) throw Error("No such team");
+    team.highscores.push({ playerName, score });
+    team.highscores.sort((a, b) => b.score - a.score);
+    team.save();
+  } catch (err) {
+    res.status(400).send(err.message);
+  }
+}
+
+module.exports = { addTeam, getTeam, updateScores };
