@@ -27,6 +27,8 @@ async function getTeam(req, res) {
 }
 
 async function updateScores(res, req) {
+  console.log("in update scores");
+  // TODO keep only one highscore per playerName
   const { teamUid } = req.params;
   const { playerName, score } = req.body;
   console.log("~ score", score);
