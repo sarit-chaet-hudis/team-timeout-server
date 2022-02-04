@@ -26,23 +26,19 @@ async function getTeam(req, res) {
   }
 }
 
-async function updateScores(res, req) {
-  console.log("in update scores");
+async function updateScores(req, res) {
   // TODO keep only one highscore per playerName
-  const { teamUid } = req.params;
-  const { playerName, score } = req.body;
-  console.log("~ score", score);
-  console.log("~ playerName", playerName);
   try {
+    const { teamUid } = req.params;
+    const { playerName, score } = req.body;
     const team = await Team.findOne({ teamUid: teamUid });
-    console.log("~ team", team);
     if (!team) throw Error("No such team");
     team.highscores.push({ playerName, score });
     team.highscores.sort((a, b) => b.score - a.score);
     await team.save();
     res.send(team.highscores);
   } catch (err) {
-    res.status(400).send(err.message);
+    res.send(err.message);
   }
 }
 
