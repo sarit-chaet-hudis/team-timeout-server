@@ -34,8 +34,16 @@ async function updateScores(req, res) {
     const { playerName, score } = req.body;
     const team = await Team.findOne({ teamUid: teamUid });
     if (!team) throw Error("No such team");
-    console.log(team); //TODO
-    team.highscores.push({ playerName, score });
+    let curScore = team.highscores.find(
+      (highscore) => highscore.playerName === playerName
+    );
+    if (curScore) {
+      if (score > curScore.score) {
+        curScore.score = score;
+      }
+    } else {
+      team.highscores.push({ playerName, score });
+    }
     team.highscores.sort((a, b) => b.score - a.score);
     await team.save();
     res.send(team.highscores);
