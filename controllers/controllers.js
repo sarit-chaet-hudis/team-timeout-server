@@ -3,6 +3,7 @@ const Team = require("../models/Team");
 async function addTeam(req, res) {
   const { teamUid, blocks, teamName } = req.body;
   try {
+    if (teamName === "") throw Error("name is empty");
     const team = await Team.create({
       teamName: teamName,
       teamUid: teamUid,
@@ -33,6 +34,7 @@ async function updateScores(req, res) {
     const { playerName, score } = req.body;
     const team = await Team.findOne({ teamUid: teamUid });
     if (!team) throw Error("No such team");
+    console.log(team); //TODO
     team.highscores.push({ playerName, score });
     team.highscores.sort((a, b) => b.score - a.score);
     await team.save();
